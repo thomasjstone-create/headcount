@@ -72,7 +72,7 @@
         <div class="glass-card rounded-[3rem] p-8 md:p-16">
           <div id="form-container">
             <!-- Contact Form -->
-            <form id="contact-form" action="https://formspree.io/f/meozdkaj" method="POST" class="space-y-8">
+            <form id="contact-form" action="https://formspree.io/f/xpqydzpz" method="POST" class="space-y-8">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-3">
                   <label for="full-name" class="text-sm font-bold text-slate-700 ml-1">Full Name</label>
@@ -125,6 +125,7 @@
           <script>
             const form = document.getElementById('contact-form');
             const successMessage = document.getElementById('success-message');
+            const formContainer = document.getElementById('form-container');
             
             form.addEventListener('submit', async (e) => {
               e.preventDefault();
@@ -144,17 +145,26 @@
                   }
                 });
 
-                if (response.ok) {
-                  form.classList.add('hidden');
+                if (response.ok || response.status === 201) {
+                  formContainer.innerHTML = '';
                   successMessage.classList.remove('hidden');
                 } else {
-                  const data = await response.json();
-                  alert(data.errors ? data.errors.map(error => error.message).join(", ") : "Oops! There was a problem submitting your form");
+                  let errorMessage = "Oops! There was a problem submitting your form";
+                  try {
+                    const data = await response.json();
+                    if (data.errors) {
+                      errorMessage = data.errors.map(error => error.message).join(", ");
+                    }
+                  } catch (parseError) {
+                    // Response wasn't JSON, use default message
+                  }
+                  alert(errorMessage);
                   submitBtn.disabled = false;
                   submitBtn.innerHTML = originalText;
                 }
               } catch (error) {
-                alert("Oops! There was a problem submitting your form");
+                console.error('Form submission error:', error);
+                alert("Oops! There was a problem submitting your form. Please try again.");
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
               }
@@ -195,7 +205,7 @@
         <div>
           <h4 class="font-black text-slate-900 mb-6 uppercase tracking-wider text-sm">Stay Updated</h4>
           <div class="flex gap-2">
-            <a href="#" class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 hover:text-purple-600 hover:bg-purple-50 transition-all" title="LinkedIn">
+            <a href="https://www.linkedin.com/company/headcountdigital/" class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 hover:text-purple-600 hover:bg-purple-50 transition-all" title="LinkedIn" target="_blank" rel="noopener noreferrer">
               <iconify-icon icon="lucide:linkedin"></iconify-icon>
             </a>
             <a href="#" class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 hover:text-purple-600 hover:bg-purple-50 transition-all" title="Twitter">
