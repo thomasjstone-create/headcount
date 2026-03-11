@@ -113,7 +113,7 @@
               </div>
               <h3 class="text-3xl font-black text-slate-900 mb-4">Message Sent!</h3>
               <p class="text-slate-600 text-lg font-medium max-w-md mx-auto leading-relaxed">
-                Thank you for reaching out. Your inquiry has been sent and we'll be in touch within 4 hours.
+                Thank you for reaching out. Your inquiry has been sent and we'll be in touch as soon as possible.
               </p>
               <a href="index.html" class="mt-10 inline-flex items-center gap-2 text-purple-600 font-bold hover:gap-3 transition-all">
                 Return to Home
@@ -146,7 +146,7 @@
                 });
 
                 if (response.ok || response.status === 201) {
-                  formContainer.innerHTML = '';
+                  form.classList.add('hidden');
                   successMessage.classList.remove('hidden');
                 } else {
                   let errorMessage = "Oops! There was a problem submitting your form";
